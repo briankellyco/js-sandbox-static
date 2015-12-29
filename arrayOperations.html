@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash-compat/3.10.1/lodash.js"></script>
+    <script>
+        lodash = _.noConflict();
+    </script>
+
+</head>
+<body>
+    <h2>Working with arrays</h2>
+
+    <script>
+
+        $(document).ready(function(){
+
+            // http://stackoverflow.com/questions/16057672/sum-values-from-an-array-in-javascript
+            var myData = new Array(['2013-01-22', 0], ['2013-01-29', 5], ['2013-02-05', 0], ['2013-02-12', 0], ['2013-02-19', 0], ['2013-02-26', 0], ['2013-03-05', 0], ['2013-03-12', 0], ['2013-03-19', 0], ['2013-03-26', 0], ['2013-04-02', 21], ['2013-04-09', 2]);
+
+            var jsonDataArray = [{"trip_id":"1","arrival_time":"08:32:00","stop_id":"2"},{"trip_id":"1","arrival_time":"08:35:00","stop_id":"3"},{"trip_id":"1","arrival_time":"08:38:00","stop_id":"5"},{"trip_id":"1","arrival_time":"08:38:00","stop_id":"4"}]
+
+            // SUM or aggregate a result.... WORKS :)
+            // Reduce applies a transformation to every element in a collection (array) and returns a value.
+            var sum = myData.reduce(function(a, b) {
+                return a + b[1];
+            }, 0);
+
+
+            // Max value
+            var max = Math.max.apply(Math, myData.map(function(v) {
+                return v[1];
+            }));
+
+            /*
+             * Underscore. Return object containing max value for given attribute.
+             *
+             * Format JSON nicely with <pre> tags.
+             */
+            var maxObj = _.max(jsonDataArray, function (obj) {
+                return obj.stop_id;
+            });
+             
+            // MAPs return arrays not objects.
+             
+            // MAP iterate array and perform an operation returning a new array with the same number of elements.
+            // It returns empty/undefined for elements that don't meet the criteria. e.g  ,5,,,,,,,,,21,
+			var mapResult = myData.map(function(arr){
+            	 if (arr[1] > 2) {
+            		 return arr[1]; 
+            	 }
+            });
+            
+            // MAP with underscore. Returns empty/undefined for elements that don't meet the criteria. e.g  ,5,,,,,,,,,21,
+			var mapResultUnderscore = _.map(myData, function(item) {
+           	 	if (item[1] > 2) {
+        		 return item[1]; 
+        		 }
+			});
+            
+            // FILTER with standard JS nicely removes specific items when working with a nice list. Not so great with arrays.
+            var mapResultNoUndefined = mapResultUnderscore.filter(function(item) { 
+            	return (item != undefined || item != null); 
+            });
+            
+            // ES6 approach with underscore?
+            // var mapResultOmittedUnderscore = _.omit(mapResultUnderscore, it => it == null);
+            // OMIT chains with MAP well. You can use map and omit in conjunction to exclude specific properties.
+            
+            // MAP with jquery. Returns exactly what we want e.g 5,21 [no undefined elements returned].
+            var mapResultJquery = $.map( myData, function(item) {
+           	 	if (item[1] > 2) {
+           		 return item[1]; 
+           		 }
+   			});
+            
+            // FILTER reduces an array. Approach identifies correct items but returns entire array item (date and number).
+			var filterResult = myData.filter(function(arr){
+	           	 if (arr[1] > 2) {
+	           		 return arr[1]; 
+	           	 }
+           	});
+			
+			// Filter with underscore. Returns entire array item ((date and number, not just the number).
+			var filterResultUnderscore = _(myData).filter(function (item) { 
+	           	 if (item[1] > 2) {
+	           		 return item; // same content returned by "return item[1];" and "return item;"
+	           	 }
+			});
+            
+            // FILTER with jquery (removes undefined's)
+            var arrayContainingUndefined = [,5,,,,,,,,,21];
+			var arrayClean = $.grep(arrayContainingUndefined,function(n){ return(n) });
+			
+			// FILTER array and output array to associative array/ array to hash array.
+			var filterResultAssocArray = {};
+			[ { id: 'medium', score: 7 },
+			  { id: 'low',    score: 9 },
+			  { id: 'high',   score: 5 } ].forEach(function(obj) {
+				  if (obj.score === 9 || obj.score === 5) {
+                      filterResultAssocArray[obj.id] = obj;
+				  }
+			});
+
+
+            // ADD property to single item in array. Will merge into ONLY first item in destination array.
+            var destination = jsonDataArray;
+            var itemToMergeIn =  [{
+                    extraData: "heh! I'm extra data!"
+                }];
+            console.log("ADD property to single item in array: " + lodash.merge({}, destination, itemToMergeIn));
+
+            // ADD property to every item of array.
+            var destination = jsonDataArray;
+            var itemToMergeIn =  [{
+                extraData: "heh! I'm extra data!"
+            }];
+            var addedPropertyToEveryItemResult = destination.map(function(arr){
+                //return lodash.extend(arr, itemToMergeIn[0]);   // lodash version
+                //return $.extend(arr, itemToMergeIn[0]);        // jquery version
+                return _.extend(arr, itemToMergeIn[0]);          // underscore version
+            });
+            console.log("ADD property to every item in array: " +  JSON.stringify(addedPropertyToEveryItemResult));
+
+            $("#output1").text(sum);
+            $("#output2").text(max);
+            $("#output3").html(JSON.stringify(maxObj, undefined, 2));
+            $("#output4").html('<span>' + mapResult.join('</span><span>,') +'</span>');		// output array contents inline
+            $("#output5").html('<span>' + mapResultUnderscore.join('</span><span>,') +'</span>');
+            $("#output6").html('<span>' + mapResultNoUndefined.join('</span><span>,') +'</span>');
+            
+            $("#output7").html('<span>' + mapResultJquery.join('</span><span>,') +'</span>');
+            
+            
+            $("#output8").html('<span>' + filterResult.join('</span><span>,') +'</span>')
+            $("#output9").html('<span>' + filterResultUnderscore.join('</span><span>,') +'</span>')
+            
+            
+            $("#output10").html('<span>' + arrayClean.join('</span><span>,') +'</span>');
+            
+            $("#output11").html(JSON.stringify(filterResultAssocArray, undefined, 2));
+            
+
+
+
+
+
+        });
+
+
+    </script>
+
+    <p id="output1"></p>
+    <p id="output2"></p>
+    <pre id="output3"></pre>
+    <p id="output4"></p>
+    <p id="output5"></p>
+    <p id="output6"></p>
+    <p id="output7"></p>
+    <p id="output8"></p>
+    <p id="output9"></p>
+    <p id="output10"></p>
+    <pre id="output11"></pre>
+
+</body>
+</html>

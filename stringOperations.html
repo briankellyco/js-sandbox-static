@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.js"></script>
+    
+</head>
+<body>
+    <h2>Working with Strings</h2>
+
+    <script>
+
+        $(document).ready(function(){
+			
+        	/*
+        	 * Substitutions in Strings. Option #1 - conventional regex.
+        	 */
+        	var replacements = {"%NAME%":"Joe","%SCORE%":"82","%EVENT%":"21"};
+            var str = 'My name is %NAME% and my score is %SCORE%.';
+
+            //w = word character e.g [a-zA-Z0-9_], g = all occurences in string
+	        str = str.replace(/%\w+%/g, function(all) {
+	           return replacements[all] || all;
+	        });
+	        $("#output1").html("output1: " + str);
+	        
+	        /*
+	         * Option #2 - RegExp object.
+	         * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
+	         */
+			function replaceAll(str, find, replace) {
+				return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+			}
+
+			function escapeRegExp(str) {
+				return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+			}
+
+			var find = 'abc', str = 'this string contains the letters abc';
+			var option2 = replaceAll(str, find, 'xyz');
+			$("#output2").html("output2: " + option2);
+	        
+	        /*
+	         * Option #3. Jquery validator plugin. http://jqueryvalidation.org/
+	         */
+	        var option3 = $.validator.format("My name is {0}, I'm {1} years old",["Felicity","28"]);
+	        $("#output3").html("output3: " + option3);
+        	
+        });
+
+
+    </script>
+
+    <p id="output1"></p>
+	<p id="output2"></p>
+	<p id="output3"></p>
+
+</body>
+</html>

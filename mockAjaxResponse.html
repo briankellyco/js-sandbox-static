@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
+
+    <script>
+
+        // http://stackoverflow.com/questions/5272698/how-to-fake-jquery-ajax-response
+        // Sequential tutorials
+        // The lowdown .... http://tutorials.jenkov.com/jquery/ajax.html
+        http://tutorials.jenkov.com/html5/history-api.html
+
+        // Multiple callbacks:
+        /// http://www.mattlunn.me.uk/blog/2011/11/handling-an-ajax-response-in-javascript-with-or-without-jquery/
+
+        // Override ajax handlers:
+        // http://stackoverflow.com/questions/21899069/how-to-override-jquery-ajax-function-with-a-custom-implementation-for-error-call
+        // http://www.svlada.com/override-jquery-ajax-handler/
+
+
+        // Callback ideas:
+        // http://stackoverflow.com/questions/14200021/passing-a-callback-function-with-included-parameters
+        //      "TypeError: params.success is not a function at Function.declare.ajax_response"
+
+
+
+
+
+    // DOM loaded and ready to be manipulated by $...
+    $(document).ready(function(){
+
+        /* FUNCTION THAT MAKES AJAX REQUEST */
+        function doAsyncThing() {
+            $.ajax({
+                type: "POST",
+                url: "somefile.php",
+                data: "",
+                success: function (results) {
+                    var json = $.parseJSON(results);
+                    var html = $("p").html();
+                    $("p").html(html + '<br />' + json.id);
+                }
+                ,
+                error: function (xhr, status, error) {
+                    console.log('error - xhr:' + xhr.status);
+                    console.log('error - status:' + status);
+                }
+            });
+        }
+
+        /* BEGIN UNIT TEST */
+
+
+        // Closure returning dummy function and fake response
+        function ajax_response(response, success) {
+            return function (params) {
+                if (success) {
+                    params.success(response);
+                } else {
+                    params.error(response);
+                }
+            };
+        }
+
+        var n = prompt("Number of AJAX calls to make", 4);
+        for (var i = 1; i <= n; ++i) {
+            console.log("ajax calls to make: " + n);
+            // OVERRIDE $.ajax WITH DUMMY FUNCTION AND FAKE RESPONSE
+            $.ajax = ajax_response('{ "id": ' + i + ' }', true); //simulate success
+            //$.ajax = ajax_response('{ "id": ' + i + ' }', false); //simulate error
+            doAsyncThing();
+        }
+
+        /* END UNIT TEST */
+    });
+
+    </script>
+
+</head>
+<body>
+
+    <p>Not loaded yet.</p>
+
+</body>
+</html>

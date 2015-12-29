@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h2>Working with the prototype object</h2>
+
+    <script>
+        // The "in" operator returns true for properties in the prototype chain.
+        console.log("toString" in {});  // true
+
+
+        // looping and prototype
+        // http://stackoverflow.com/questions/3010840/loop-through-array-in-javascript
+
+
+        // "apply" function
+        // http://stackoverflow.com/questions/21255138/how-does-the-math-max-apply-work
+
+
+        // Time related... enable 00:00:00 time formatting when working with numbers
+        //  http://jsfiddle.net/kooiinc/mthda/
+
+
+        /*
+         * ReplaceAll method
+         */
+        String.prototype.replaceAll = function (find, replace) {
+            var str = this;
+            return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        };
+        string = "hello$&. world";
+        string = string.replaceAll('hello$&.', 'hello');
+        
+        
+        /*
+         * Clean array method. Good candidate for adding to prototype by default.
+         */
+         // http://stackoverflow.com/questions/281264/remove-empty-elements-from-an-array-in-javascript
+        
+        $('#output1').html(string);
+
+
+
+    </script>
+
+    <p id="output1"></p>
+
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
+
+	<!-- both required if time-zone is needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.1/moment-timezone-with-data.js"></script>
+
+
+    
+</head>
+<body>
+    <h2>Working with moment timezone</h2>
+
+    <script>
+
+        /*
+         * Indepth usage demos at:
+         *   https://gist.github.com/brianthomkelly/b86f5046d17347babd09
+         */
+        $(document).ready(function(){
+
+			var timezone = "Asia/Dubai";
+			var timestamp = "2015-11-02T09:32:10Z";
+			//moment.utc(timestamp).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
+
+			var time = "2013-11-18 11:55";
+			var option3 = time.split(" ");
+
+	        $("#output3").html("output3: " + option3[1]);
+
+            // SEE
+        	
+        });
+
+
+    </script>
+
+    <p id="output1"></p>
+	<p id="output2"></p>
+	<p id="output3"></p>
+
+</body>
+</html>

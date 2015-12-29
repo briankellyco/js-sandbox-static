@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+
+    <style>
+
+        .navigationcontainer {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 300px;
+            height: 300px;
+            border: 3px solid #73AD21;
+            background-size: 99% 99%;
+            background-image: url(img/sliderCtl/map_nav_bg.png);
+            background-repeat: no-repeat;
+            background-position: left top, right bottom, left top;
+            z-index: 100;
+        }
+
+        .slidershell {
+            position: absolute;
+            width:100%;
+            height:100%;
+            top: 183px;
+            left: -30px;
+            width: 8px;
+            height: 23px;
+        }
+
+        .slider {
+            position: absolute;
+            left: -4px;
+            top: -8px;
+            overflow: visible;
+            width: 144px;
+            z-index: 100;
+        }
+
+        /* Plus/minus buttons */
+        .slider-plus {
+            position: relative;
+            right: -48px;
+            top: -100px;
+            overflow: visible;
+            z-index: 101;
+            width: 30px;
+            height: 30px;
+            background-image: url(img/sliderCtl/map_nav_zoom_in.png);
+        }
+
+        .slider-plus:hover {
+            background-image: url(img/sliderCtl/map_nav_zoom_in_hover.png);
+        }
+
+        .slider-minus {
+            position: relative;
+            right: -48px;
+            top: 52px;
+            overflow: visible;
+            z-index: 101;
+            width: 30px;
+            height: 30px;
+            background-image: url(img/sliderCtl/map_nav_zoom_out.png);
+        }
+
+        .slider-minus:hover {
+            background-image: url(img/sliderCtl/map_nav_zoom_out_hover.png);
+        }
+
+        /* Vertical slider */
+        input[type="range"] {
+            position: absolute;
+            transform: rotate(270deg);
+            height: 100%;
+        }
+
+        /* REMOVE DEFAULT STYLING */
+        input[type=range] {
+            /*width: 100%;*/
+            /*height: 100%;*/
+            -webkit-appearance: none;
+            margin: 0px;
+            padding: 0px;
+            border: 0 none;
+            background: transparent;
+            color: transparent;
+            overflow: visible;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: transparent;
+            border: transparent;
+        }
+
+        input[type=range]::-moz-range-track {
+            width: 100px;
+            height: 140px;
+            -moz-appearance: none;
+            margin: 0px;
+            padding: 0px;
+            border: 0 none;
+            background: transparent;
+            color: transparent;
+            overflow: visible;
+        }
+
+        /* REMOVE FOCUS LINE FROM SLIDER (Chrome & FF) */
+        input[type=range]::-moz-focus-outer {
+            border: 0;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+
+    </style>
+
+    <script>
+    function logToConsole(value) {
+        console.log("logToConsole value =" + value);
+    }
+
+
+
+
+    </script>
+
+</head>
+<body>
+    <h2>HTML5 slider control</h2>
+
+    <div id="widgetContainer">
+
+        <div class="navigationcontainer">
+            <div class="slidershell" id="slidershell">
+                <div class="slider-plus"></div>
+                <div class="slider-minus"></div>
+                <div class="sliderthumb" id="sliderthumb"></div>
+                <input class="slider" id="sliderzoom" type="range" onchange="logToConsole(this.value);" min="0" max="100" value="0" />
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <br>
+
+
+
+
+
+
+</body>
+</html>

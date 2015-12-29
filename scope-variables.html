@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script>
+
+        // http://javascript.info/tutorial/initialization
+        function test() {
+            alert("b" in window); // false, there is no window.b
+            //alert(b); // error, b is not defined
+            b = 5;
+            alert("b" in window); // true, there is window.b = 5
+        }
+
+    </script>
+</head>
+<body onload="test(); return false;">
+
+</body>
+</html>
